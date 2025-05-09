@@ -1,8 +1,8 @@
-package br.com.fiap.connections;
+package br.com.fiap.main;
 
 import io.quarkus.runtime.Quarkus;
 
-public class server {
+public class Main {
     public static void main(String[] args) {
         Quarkus.run(args);
     }

@@ -60,7 +60,7 @@ public class DuvidasDAO {
         return duvidasList;
     }
 
-    public void update(Duvidas duvida) throws SQLException {
+    public Duvidas update(Duvidas duvida) throws SQLException {
         String sql = "UPDATE C_duvidas_frequentes SET Pergunta = ?, Resposta = ?, ID_Usuario = ?, ID_Idioma = ? WHERE ID_duvida = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -69,8 +69,13 @@ public class DuvidasDAO {
             stmt.setLong(3, duvida.getIdUsuario());
             stmt.setLong(4, duvida.getIdIdioma());
             stmt.setLong(5, duvida.getId());
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new SQLException("No rows updated, Duvida not found");
+            }
         }
+        return duvida;
     }
 
     public void delete(Long id) throws SQLException {
